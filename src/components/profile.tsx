@@ -32,18 +32,18 @@ const Profile: React.FunctionComponent<ProfileProps> = (
 ) => {
   const [pokemon, setPokemon]: [any, any] = useState(null);
 
-  console.log(props);
-
   useEffect(() => {
     async function getPokemon() {
-      const { pokemonId } = props.user.favPokemonId;
-      const response = await pokemonApi.get(pokemonId);
+      const pokemonId = props.user.favPokemonId;
+      const response = await pokemonApi.get(pokemonId.toString());
       setPokemon(response.data);
     }
     getPokemon();
   });
 
   if (!pokemon) return <div>No pokemon</div>;
+
+  console.log(pokemon);
 
   const { id, name, height, weight, types } = pokemon;
   const sprite: string = pokemon.sprites.front_default;
