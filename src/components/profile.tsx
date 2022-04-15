@@ -39,7 +39,7 @@ const Profile: React.FunctionComponent<ProfileProps> = (
       setPokemon(response.data);
     }
     getPokemon();
-  });
+  }, []);
 
   if (!pokemon) return <div>No pokemon</div>;
 

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 
 import {
   Header,
@@ -25,7 +26,14 @@ class App extends React.Component<AppProps, AppState> {
         <Header />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/profile" element={<Profile user={this.state.user} />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile user={this.state.user} />
+              </PrivateRoute>
+            }
+          />
           <Route path="/pokemon" element={<PokemonList />}>
             <Route path=":pokemonId" element={<PokemonProfile />} />
           </Route>

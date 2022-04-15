@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { authContext } from "../contexts/AuthContext";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,9 +23,15 @@ const Login: React.FunctionComponent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormValues>({ resolver: yupResolver(schema) });
+  const { setAuthData } = useContext(authContext);
 
-  const onSubmitHandler: SubmitHandler<LoginFormValues> = (data) =>
-    console.log({ data });
+  let navigate = useNavigate();
+
+  const onSubmitHandler: SubmitHandler<LoginFormValues> = (data) => {
+    setAuthData(data.email);
+    console.log(data);
+    navigate("/profile"); //after saving email the user will be sent to Panel;
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
