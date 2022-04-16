@@ -12,36 +12,50 @@ import {
 } from "./components";
 
 import "./App.css";
+import Users, { authContext } from "./contexts/AuthContext";
 
 interface AppProps {}
 
-interface AppState {}
+const App: React.FunctionComponent<AppProps> = () => {
+  const [user, setUser] = React.useState<{ favouritePokemon: number } | null>(
+    null
+  );
+  const { auth } = React.useContext(authContext);
 
-class App extends React.Component<AppProps, AppState> {
-  state = { user: { favPokemonId: 6 } };
+  React.useEffect(() => {
+    if (auth?.data) {
+      const users: Users = new Map(
+        Object.entries(JSON.parse(window.localStorage.getItem("users") || "{}"))
+      );
+      let { favouritePokemon } = users.get(auth.data);
+      setUser({ favouritePokemon });
+      console.log(user);
+    }
+  }, [auth.data]);
 
-  render() {
-    return (
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Login />} />
+  return (
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile user={user} />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/pokemon" element={<PokemonList />}>
           <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile user={this.state.user} />
-              </PrivateRoute>
-            }
+            path=":pokemonId"
+            element={<PokemonProfile user={user} setUser={setUser} />}
           />
-          <Route path="/pokemon" element={<PokemonList />}>
-            <Route path=":pokemonId" element={<PokemonProfile />} />
-          </Route>
-        </Routes>
-        <Footer />
-      </Router>
-    );
-  }
-}
+        </Route>
+      </Routes>
+      <Footer />
+    </Router>
+  );
+};
 
 export default App;

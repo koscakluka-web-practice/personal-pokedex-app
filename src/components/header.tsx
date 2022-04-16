@@ -5,13 +5,7 @@ import { authContext } from "../contexts/AuthContext";
 interface HeaderProps {}
 
 const Header: React.FunctionComponent<{}> = (props: HeaderProps) => {
-  const { auth, setAuthData } = React.useContext(authContext);
-
-  const onLogoutClick = (e: any) => {
-    if (setAuthData !== undefined) {
-      setAuthData(null);
-    }
-  };
+  const { auth, authenticateUser, logOutUser } = React.useContext(authContext);
 
   return (
     <header>
@@ -19,7 +13,7 @@ const Header: React.FunctionComponent<{}> = (props: HeaderProps) => {
       <NavLink to="/pokemon">
         <span>Pokemon List</span>
       </NavLink>
-      {auth.data ? <span onClick={onLogoutClick}>Logout</span> : ""}
+      {auth.data ? <span onClick={logOutUser}>Logout</span> : ""}
     </header>
   );
 };

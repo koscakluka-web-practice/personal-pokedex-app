@@ -3,6 +3,8 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import Users, { authContext } from "../../contexts/AuthContext";
+
 interface PokemonTypes {
   slot: number;
   type: {
@@ -24,10 +26,16 @@ const pokemonApi: any = axios.create({
   baseURL: "https://pokeapi.co/api/v2/pokemon",
 });
 
-interface PokemonProfileProps {}
+interface PokemonProfileProps {
+  user: any;
+  setUser: any;
+}
 
-const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = () => {
+const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
+  props
+) => {
   const [pokemon, setPokemon]: [any, any] = useState(null);
+  const { auth } = React.useContext(authContext);
   const navigate = useNavigate();
 
   let { pokemonId } = useParams();
@@ -45,6 +53,20 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = () => {
     navigate("/pokemon");
   };
 
+  const updateFavouritePokemon = (pokemonId: string) => {
+    props.setUser({ ...props.user, favouritePokemon: pokemonId });
+    let users: Users = new Map(
+      Object.entries(JSON.parse(window.localStorage.getItem("users") || "{}"))
+    );
+    let user = users.get(auth?.data);
+    user.favouritePokemon = pokemonId;
+    users.set(auth?.data, user);
+    window.localStorage.setItem(
+      "users",
+      JSON.stringify(Object.fromEntries(users))
+    );
+  };
+
   console.log(pokemon);
   let body = <div />;
   if (!pokemon) {
@@ -52,7 +74,7 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = () => {
   } else {
     const { id, name, height, weight, types } = pokemon;
     const sprite: string = pokemon.sprites.front_default;
-
+    console.log(props);
     body = (
       <React.Fragment>
         <div className="titleCloseBtn">
@@ -71,10 +93,16 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = () => {
           ))}
         </div>
         <div className="footer">
-          <button>Make Favourite</button>
-          <p style={{ fontSize: "0.6em", color: "gray" }}>
-            This will replace your current favourite Pokemon
-          </p>
+          {props.user ? (
+            <React.Fragment>
+              <button onClick={() => updateFavouritePokemon(pokemonId)}>
+                Make Favourite
+              </button>
+              <p style={{ fontSize: "0.6em", color: "gray" }}>
+                This will replace your current favourite Pokemon
+              </p>
+            </React.Fragment>
+          ) : null}
         </div>
       </React.Fragment>
     );

@@ -11,7 +11,7 @@ interface PokemonTypes {
 }
 
 interface Pokemon {
-  id: number;
+  id: number | string;
   name: string;
   height: number;
   weight: number;
@@ -30,16 +30,20 @@ interface ProfileProps {
 const Profile: React.FunctionComponent<ProfileProps> = (
   props: ProfileProps
 ) => {
+  console.log(props);
   const [pokemon, setPokemon]: [any, any] = useState(null);
 
   useEffect(() => {
     async function getPokemon() {
-      const pokemonId = props.user.favPokemonId;
-      const response = await pokemonApi.get(pokemonId.toString());
-      setPokemon(response.data);
+      console.log(props);
+      const pokemonId = props.user?.favouritePokemon;
+      if (pokemonId) {
+        const response = await pokemonApi.get(pokemonId.toString());
+        setPokemon(response.data);
+      }
     }
     getPokemon();
-  }, []);
+  }, [props.user]);
 
   if (!pokemon) return <div>No pokemon</div>;
 

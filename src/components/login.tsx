@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authContext } from "../contexts/AuthContext";
@@ -18,19 +18,26 @@ const schema = yup.object().shape({
 });
 
 const Login: React.FunctionComponent = () => {
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormValues>({ resolver: yupResolver(schema) });
-  const { setAuthData } = useContext(authContext);
+  const { authenticateUser } = useContext(authContext);
 
   let navigate = useNavigate();
 
   const onSubmitHandler: SubmitHandler<LoginFormValues> = (data) => {
-    setAuthData(data.email);
     console.log(data);
-    navigate("/profile"); //after saving email the user will be sent to Panel;
+
+    const authResult = authenticateUser(data);
+    if (authResult.success) {
+      navigate("/profile"); //after saving email the user will be sent to Panel;
+    } else {
+      setAuthError(authResult.error);
+    }
   };
 
   return (
@@ -40,6 +47,7 @@ const Login: React.FunctionComponent = () => {
       <input {...register("password")} type="password" placeholder="Password" />
       <p>{errors.password?.message}</p>
       <input type="submit" value="Login" />
+      <p>{authError}</p>
     </form>
   );
 };
