@@ -7,10 +7,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-type LoginFormValues = {
+interface LoginFormValues {
   email: string;
   password: string;
-};
+}
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),

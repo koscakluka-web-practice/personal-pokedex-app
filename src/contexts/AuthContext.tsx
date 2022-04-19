@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import LoginFormValues from "../components/login";
 
+import Users, { User } from "../data/users";
+
 import md5 from "md5";
 
 type Auth = { loading: boolean; data: string | null };
-type Users = Map<string, { password: string; favouritePokemon: number | null }>;
 
 interface AuthContext {
   auth: Auth;
@@ -24,30 +25,16 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
   });
 
   const authenticateUser = (data: LoginFormValues) => {
-    const usersJson = window.localStorage.getItem("users");
-    let users: Users;
-    if (usersJson) {
-      users = new Map(Object.entries(JSON.parse(usersJson)));
-    } else {
-      users = new Map();
-    }
-
-    if (users.has(data.email)) {
-      if (users.get(data.email)?.password === md5(data.password)) {
+    const user: User | null = Users.get(data.email);
+    if (user) {
+      if (user.password === md5(data.password)) {
         setAuth({ ...auth, data: data.email });
         return { success: true, error: null };
       } else {
         return { success: false, error: "Incorrect password" };
       }
     } else {
-      users.set(data.email, {
-        password: md5(data.password),
-        favouritePokemon: null,
-      });
-      window.localStorage.setItem(
-        "users",
-        JSON.stringify(Object.fromEntries(users))
-      );
+      Users.add(data);
       return {
         success: false,
         error: `User ${data.email} didn't exist. User Created!`,

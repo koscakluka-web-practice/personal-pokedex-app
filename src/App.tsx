@@ -17,22 +17,6 @@ import Users, { authContext } from "./contexts/AuthContext";
 interface AppProps {}
 
 const App: React.FunctionComponent<AppProps> = () => {
-  const [user, setUser] = React.useState<{ favouritePokemon: number } | null>(
-    null
-  );
-  const { auth } = React.useContext(authContext);
-
-  React.useEffect(() => {
-    if (auth?.data) {
-      const users: Users = new Map(
-        Object.entries(JSON.parse(window.localStorage.getItem("users") || "{}"))
-      );
-      let { favouritePokemon } = users.get(auth.data);
-      setUser({ favouritePokemon });
-      console.log(user);
-    }
-  }, [auth.data]);
-
   return (
     <Router>
       <Header />
@@ -42,15 +26,12 @@ const App: React.FunctionComponent<AppProps> = () => {
           path="/profile"
           element={
             <PrivateRoute>
-              <Profile user={user} />
+              <Profile />
             </PrivateRoute>
           }
         />
         <Route path="/pokemon" element={<PokemonList />}>
-          <Route
-            path=":pokemonId"
-            element={<PokemonProfile user={user} setUser={setUser} />}
-          />
+          <Route path=":pokemonId" element={<PokemonProfile />} />
         </Route>
       </Routes>
       <Footer />

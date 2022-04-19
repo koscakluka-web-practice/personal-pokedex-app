@@ -3,38 +3,16 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Users, { authContext } from "../../contexts/AuthContext";
+import { authContext } from "../../contexts/AuthContext";
+import Users, { User } from "../../data/users";
+import PokemonApi, { Pokemon, PokemonType } from "../../data/pokemon";
 
-interface PokemonTypes {
-  slot: number;
-  type: {
-    name: string;
-    url: string;
-  };
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  types: PokemonTypes;
-  sprite: string;
-}
-
-const pokemonApi: any = axios.create({
-  baseURL: "https://pokeapi.co/api/v2/pokemon",
-});
-
-interface PokemonProfileProps {
-  user: any;
-  setUser: any;
-}
+interface PokemonProfileProps {}
 
 const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
   props
 ) => {
-  const [pokemon, setPokemon]: [any, any] = useState(null);
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const { auth } = React.useContext(authContext);
   const navigate = useNavigate();
 
@@ -42,9 +20,10 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
 
   useEffect(() => {
     async function getPokemon() {
-      console.log(pokemonId);
-      const response = await pokemonApi.get(pokemonId);
-      setPokemon(response.data);
+      if (pokemonId) {
+        const pokemon = await PokemonApi.get(pokemonId);
+        setPokemon(pokemon);
+      }
     }
     getPokemon();
   }, [pokemonId]);
@@ -54,17 +33,13 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
   };
 
   const updateFavouritePokemon = (pokemonId: string) => {
-    props.setUser({ ...props.user, favouritePokemon: pokemonId });
-    let users: Users = new Map(
-      Object.entries(JSON.parse(window.localStorage.getItem("users") || "{}"))
-    );
-    let user = users.get(auth?.data);
-    user.favouritePokemon = pokemonId;
-    users.set(auth?.data, user);
-    window.localStorage.setItem(
-      "users",
-      JSON.stringify(Object.fromEntries(users))
-    );
+    if (auth?.data) {
+      const user: User | null = Users.get(auth.data);
+      if (user) {
+        user.favouritePokemon = pokemonId;
+        Users.update(user);
+      }
+    }
   };
 
   console.log(pokemon);
@@ -72,9 +47,7 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
   if (!pokemon) {
     body = <div>No pokemon</div>;
   } else {
-    const { id, name, height, weight, types } = pokemon;
-    const sprite: string = pokemon.sprites.front_default;
-    console.log(props);
+    const { id, name, height, weight, types, sprite } = pokemon;
     body = (
       <React.Fragment>
         <div className="titleCloseBtn">
@@ -88,14 +61,14 @@ const PokemonProfile: React.FunctionComponent<PokemonProfileProps> = (
           <p>
             Height: {height / 10.0} m | Weight: {weight / 10.0} kg
           </p>
-          {types.map((t: PokemonTypes) => (
+          {types.map((t: PokemonType) => (
             <span key={t.slot}>{t.type.name} </span>
           ))}
         </div>
         <div className="footer">
-          {props.user ? (
+          {auth?.data ? (
             <React.Fragment>
-              <button onClick={() => updateFavouritePokemon(pokemonId)}>
+              <button onClick={() => updateFavouritePokemon(id.toString())}>
                 Make Favourite
               </button>
               <p style={{ fontSize: "0.6em", color: "gray" }}>
