@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
+import PokemonApi, { PokemonList as PokemonListType } from "../../data/pokemon";
+
 const pokemonApi: any = axios.create({
   baseURL: "https://pokeapi.co/api/v2/pokemon",
 });
@@ -11,29 +13,40 @@ const pokemonApi: any = axios.create({
 interface PokemonListProps {}
 
 const PokemonList: React.FunctionComponent<PokemonListProps> = () => {
-  const [pokemon, setPokemon]: [any, any] = useState(null);
-  const [limit, setLimit]: [number, any] = useState(50);
+  const [pokemonList, setPokemon] = useState<PokemonListType | null>(null);
+  const [lastPage, setLastPage] = useState<number>(0);
 
   useEffect(() => {
-    async function getPokemon() {
-      const response = await pokemonApi.get("?limit=" + limit);
-      setPokemon(response.data.results);
-    }
+    const getPokemon = async () => {
+      setPokemon(await PokemonApi.list(lastPage));
+    };
     getPokemon();
-  }, [limit]);
+  }, [lastPage]);
 
   let handleLoadMore = () => {
-    setLimit(limit + 50);
+    setLastPage(lastPage + 1);
   };
 
-  if (!pokemon) return <div>No pokemon</div>;
+  if (!pokemonList) return <div>No pokemon</div>;
+
+  console.log(pokemonList);
 
   return (
     <React.Fragment>
       <ul>
-        {pokemon.map((t: { name: string; url: string }) => (
+        {pokemonList.map((t: { name: string; url: string }) => (
           <NavLink to={t.name} key={t.name}>
-            <li style={{ textTransform: "capitalize" }}>{t.name}</li>
+            <li
+              style={{
+                textTransform: "capitalize",
+                display: "inline-block",
+                margin: "5px",
+                width: "100px",
+                height: "50px",
+              }}
+            >
+              {t.name}
+            </li>
           </NavLink>
         ))}
       </ul>
