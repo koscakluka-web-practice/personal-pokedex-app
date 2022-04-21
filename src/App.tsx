@@ -1,13 +1,15 @@
-import React from "react";
-
-import AppRoutes from "@routes";
-
-import "@assets/theme/App.css";
+import * as React from "react";
+import "./App.css";
 
 interface AppProps {}
 
-const App: React.FunctionComponent<AppProps> = () => {
-  return <AppRoutes />;
-};
+interface AppState {}
+
+class App extends React.Component<AppProps, AppState> {
+  //state = { :  }
+  render() {
+    return "";
+  }
+}
 
 export default App;
