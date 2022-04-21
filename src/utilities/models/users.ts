@@ -1,6 +1,6 @@
 import md5 from "md5";
 
-import LoginFormValues from "../components/login";
+import LoginFormValues from "@components/login";
 
 export interface User {
   email: string;
