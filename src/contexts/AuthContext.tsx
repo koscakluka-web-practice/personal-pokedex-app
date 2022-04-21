@@ -1,18 +1,23 @@
 import React, { createContext, useState, useEffect } from "react";
-import LoginFormValues from "../components/login";
 
-import Users, { User } from "../data/users";
+import Users, { User } from "@utilities/models/users";
+import { LoginFormValues } from "@utilities/models/forms";
 
 import md5 from "md5";
 
-type Auth = { loading: boolean; data: string | null };
+interface Auth {
+  loading: boolean;
+  data: string | null;
+}
+
+interface AuthernticationResponse {
+  success: boolean;
+  error: string | null;
+}
 
 interface AuthContext {
   auth: Auth;
-  authenticateUser: (data: string | null) => {
-    success: boolean;
-    error: string | null;
-  };
+  authenticateUser: (data: string | null) => AuthernticationResponse;
   logOutUser: () => void;
 }
 

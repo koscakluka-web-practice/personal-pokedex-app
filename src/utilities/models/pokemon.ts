@@ -31,6 +31,15 @@ export interface Pokemon {
  * The interface that describes the Pokemon from Pokemon endpoint when no id or
  * name is provided (https://pokeapi.co/docs/v2#pokemon)
  */
+export interface PokemonListElement {
+  name: string;
+  url: string;
+}
+
+/**
+ * The interface that describes the Pokemon from Pokemon endpoint when no id or
+ * name is provided (https://pokeapi.co/docs/v2#pokemon)
+ */
 export interface PokemonList {
   [index: number]: { name: string; url: string };
 }
