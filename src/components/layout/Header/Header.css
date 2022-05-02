@@ -1,0 +1,45 @@
+header {
+  grid-area: header;
+  display: grid;
+  grid-gap: 0;
+  grid-template-rows: 75px 1fr;
+  background: #c0c0c0;
+}
+header .logo {
+  height: 100%;
+  background-color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+header .logo > img {
+  height: 60px;
+}
+header nav.main-nav ul {
+  list-style-type: none;
+  margin: 1rem 0;
+  padding: 0;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-rows: repeat(auto-fit, 1fr);
+}
+header nav.main-nav ul li {
+  width: 95%;
+  margin: 0 auto;
+}
+header nav.main-nav ul a {
+  background: var(--primary);
+  display: block;
+  text-decoration: none;
+  padding: 0.8rem;
+  text-align: center;
+  color: var(--dark);
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  box-shadow: var(--dark-glow);
+}
+header nav.main-nav ul a:hover {
+  background: var(--dark);
+  color: var(--light);
+}
+/*# sourceMappingURL=Header.css.map */

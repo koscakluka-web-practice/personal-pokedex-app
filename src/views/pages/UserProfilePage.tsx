@@ -5,8 +5,8 @@ import Users, { User } from "@utilities/models/users";
 
 import { authContext } from "@contexts/AuthContext";
 
-import StandardLayout from "@layouts/StandardLayout";
-import PokemonProfile from "@components/pokemon/PokemonProfile";
+import { StandardLayout } from "@views";
+import { PokemonProfile } from "@components";
 
 interface UserProfilePageProps {}
 
@@ -30,8 +30,15 @@ const UserProfilePage: React.FunctionComponent<UserProfilePageProps> = () => {
   }, []);
 
   return (
-    <StandardLayout>
-      {pokemon ? <PokemonProfile pokemon={pokemon} /> : <div>No Pokemon</div>}
+    <StandardLayout center>
+      <div>
+        <h1 className="center-content"> Favourite Pokemon</h1>
+        {pokemon ? (
+          <PokemonProfile pokemon={pokemon} />
+        ) : (
+          <div className="center-content">No Pokemon</div>
+        )}
+      </div>
     </StandardLayout>
   );
 };

@@ -25,11 +25,18 @@ const PokemonListPage: React.FunctionComponent<PokemonListPageProps> = () => {
     setLastPage(lastPage + 1);
   };
 
-  if (!pokemonList) return <div>No pokemon</div>;
-
   return (
     <StandardLayout>
-      <PokemonList pokemonList={pokemonList} handleLoadMore={handleLoadMore} />
+      <h1 className="center-content">Pokemon List</h1>
+      {pokemonList ? (
+        <PokemonList
+          className="pure-u-1"
+          pokemonList={pokemonList}
+          handleLoadMore={handleLoadMore}
+        />
+      ) : (
+        <div className="pure-u-1">Loading...</div>
+      )}
       <Outlet />
     </StandardLayout>
   );

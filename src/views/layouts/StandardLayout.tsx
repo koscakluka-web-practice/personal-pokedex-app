@@ -2,15 +2,21 @@ import React from "react";
 
 import { Header, Footer } from "@components";
 
-interface StandardLayoutProps {}
+interface StandardLayoutProps {
+  center?: boolean;
+}
 
 const StandardLayout: React.FunctionComponent<StandardLayoutProps> = ({
   children,
+  center = false,
 }) => {
+  console.log(center);
   return (
     <React.Fragment>
       <Header />
-      {children}
+      <div className={"page-content" + (center ? " center-content" : "")}>
+        {children}
+      </div>
       <Footer />
     </React.Fragment>
   );

@@ -1,0 +1,11 @@
+.favourite-pokemon-selection-form {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.favourite-pokemon-selection-form .warning {
+  font-size: 0.8rem;
+  color: var(--lighten-dark);
+}
+/*# sourceMappingURL=FavouritePokemonSelectionForm.css.map */

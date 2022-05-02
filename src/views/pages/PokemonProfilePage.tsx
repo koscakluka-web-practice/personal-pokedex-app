@@ -12,6 +12,7 @@ import {
 import PokemonApi, { Pokemon, PokemonType } from "@utilities/models/pokemon";
 
 import { POKEMON_LIST_PAGE_PATH } from "@utilities/constants/paths";
+import { USER_PROFILE_PAGE_PATH } from "@utilities/constants/paths";
 
 interface PokemonProfilePageProps {}
 
@@ -42,14 +43,16 @@ const PokemonProfilePage: React.FunctionComponent<PokemonProfilePageProps> = (
     if (auth?.data) {
       const user: User | null = Users.get(auth.data);
       if (user) {
+        user.email = auth.data;
         user.favouritePokemon = pokemonId;
         Users.update(user);
+        navigate(USER_PROFILE_PAGE_PATH);
       }
     }
   };
 
   return (
-    <BasicModal closeModal={closeProfile}>
+    <BasicModal className="pure-u-1" closeModal={closeProfile}>
       {pokemon ? (
         <React.Fragment>
           <PokemonProfile pokemon={pokemon} />

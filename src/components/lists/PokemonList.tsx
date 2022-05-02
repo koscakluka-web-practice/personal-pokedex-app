@@ -16,13 +16,13 @@ const PokemonList: React.FunctionComponent<PokemonListProps> = ({
   handleLoadMore,
 }) => {
   return (
-    <ul>
+    <ul className="label-list">
       {pokemonList.map((pokemon: { name: string; url: string }) => (
         <PokemonListElement pokemon={pokemon} />
       ))}
-      <li>
-        <span onClick={handleLoadMore}>Load more...</span>
-      </li>
+      <a className="load-more" href="#" onClick={handleLoadMore}>
+        <li>Load more...</li>
+      </a>
     </ul>
   );
 };

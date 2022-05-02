@@ -10,6 +10,13 @@ export interface User {
 
 export interface UsersList extends Map<string, User> {}
 
+const updateStorage_ = (users: UsersList) => {
+  window.localStorage.setItem(
+    "users",
+    JSON.stringify(Object.fromEntries(users))
+  );
+};
+
 class Users {
   static list = (): UsersList => {
     const usersJson: string | null = window.localStorage.getItem("users");
@@ -33,14 +40,18 @@ class Users {
       favouritePokemon: null,
     });
 
-    window.localStorage.setItem(
-      "users",
-      JSON.stringify(Object.fromEntries(users))
-    );
+    updateStorage_(users);
   };
+
   static update = (user: User) => {
     const users: UsersList = Users.list();
-    users.set(user.email, user);
+    if (users.has(user.email)) {
+      users.set(user.email, user);
+    }
+
+    console.log(users);
+    updateStorage_(users);
+    console.log(window.localStorage);
   };
 }
 

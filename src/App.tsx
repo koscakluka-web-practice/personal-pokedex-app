@@ -2,12 +2,18 @@ import React from "react";
 
 import AppRoutes from "@routes";
 
-import "@assets/theme/App.css";
+import AuthProvider from "@contexts/AuthContext";
+
+import "@assets/theme/base.css";
 
 interface AppProps {}
 
 const App: React.FunctionComponent<AppProps> = () => {
-  return <AppRoutes />;
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
 };
 
 export default App;
