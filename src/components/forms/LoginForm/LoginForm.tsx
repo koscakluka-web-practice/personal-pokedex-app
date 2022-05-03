@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./LoginForm.css";
+
 interface LoginFormProps {
   register: any;
   errors: any;
@@ -14,13 +16,18 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({
   submitHandler,
 }) => {
   return (
-    <form onSubmit={submitHandler}>
+    <form className="login-form" onSubmit={submitHandler}>
+      <h1 className="center-content">Login</h1>
+      <br />
       <input {...register("email")} type="email" placeholder="Email" />
-      <p>{errors.email?.message}</p>
       <input {...register("password")} type="password" placeholder="Password" />
-      <p>{errors.password?.message}</p>
-      <input type="submit" value="Login" />
-      <p>{authError}</p>
+      <br />
+      <input className="button" type="submit" value="Login" />
+      <ul>
+        {errors.email?.message ? <li>{errors.email.message}</li> : ""}
+        {errors.password?.message ? <li>{errors.password.message}</li> : ""}
+        {authError ? <li>{authError}</li> : ""}
+      </ul>
     </form>
   );
 };

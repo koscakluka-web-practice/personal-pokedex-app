@@ -67,10 +67,8 @@ class PokemonApi {
     noPokemonOnPage = DEFAULT_PAGE_SIZE
   ): Promise<PokemonList> => {
     const actualLimit = lastPage * noPokemonOnPage;
-    console.log(actualLimit);
 
     const response = await PokemonApi.pokeapi_.get("?limit=" + actualLimit);
-    console.log("In List: ", response.data);
     return response.data.results;
   };
 

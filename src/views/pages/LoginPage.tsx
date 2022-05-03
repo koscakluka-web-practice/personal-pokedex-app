@@ -9,6 +9,7 @@ import { authContext } from "@contexts/AuthContext";
 
 import { LoginForm } from "@components";
 import { LoginFormValues } from "@utilities/models/forms";
+import { StandardLayout } from "@views";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -36,12 +37,14 @@ const LoginPage: React.FunctionComponent = () => {
   };
 
   return (
-    <LoginForm
-      register={register}
-      errors={errors}
-      authError={authError}
-      submitHandler={handleSubmit(onSubmitHandler)}
-    />
+    <StandardLayout center>
+      <LoginForm
+        register={register}
+        errors={errors}
+        authError={authError}
+        submitHandler={handleSubmit(onSubmitHandler)}
+      />
+    </StandardLayout>
   );
 };
 

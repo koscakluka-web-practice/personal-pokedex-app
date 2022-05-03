@@ -14,18 +14,8 @@ const PokemonListElement: React.FunctionComponent<PokemonListElementProps> = ({
 }) => {
   const { name, url } = pokemon;
   return (
-    <NavLink to={name} key={name}>
-      <li
-        style={{
-          textTransform: "capitalize",
-          display: "inline-block",
-          margin: "5px",
-          width: "100px",
-          height: "50px",
-        }}
-      >
-        {name}
-      </li>
+    <NavLink to={name}>
+      <li key={name}>{name}</li>
     </NavLink>
   );
 };
