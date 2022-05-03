@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { authContext } from "@contexts/AuthContext";
+import Users from "@utilities/models/users";
 
 const LIGHT_THEME = "light-theme";
 const DARK_THEME = "dark-theme";
@@ -20,22 +22,30 @@ const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = ({
 }) => {
   const [theme, setTheme] = React.useState<string>(LIGHT_THEME);
 
+  const { auth } = React.useContext(authContext);
+
   const applyTheme = (newTheme: string) => {
     setTheme(newTheme);
-    window.localStorage.setItem("theme", newTheme);
+
+    const user = Users.get(auth.data);
+    if (user) {
+      user.theme = newTheme;
+      Users.update(user);
+    }
 
     document.getElementById("app").className = newTheme;
   };
 
   const toggleTheme = () => {
     applyTheme(theme == LIGHT_THEME ? DARK_THEME : LIGHT_THEME);
-    console.log(theme);
   };
 
   useEffect(() => {
-    const stored_theme = window.localStorage.getItem("theme");
-    if (stored_theme) {
-      applyTheme(stored_theme);
+    const user = Users.get(auth.data);
+    console.log(auth);
+    if (user?.theme) {
+      console.log(user);
+      applyTheme(user.theme);
     } else {
       applyTheme(
         window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -43,7 +53,7 @@ const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = ({
           : LIGHT_THEME
       );
     }
-  }, []);
+  }, [auth]);
 
   return (
     <ThemeContext.Provider value={{ theme, applyTheme, toggleTheme }}>

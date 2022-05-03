@@ -6,6 +6,7 @@ export interface User {
   email: string;
   password: string;
   favouritePokemon: number | string | null;
+  theme: string | null;
 }
 
 export interface UsersList extends Map<string, User> {}
@@ -38,6 +39,7 @@ class Users {
       email: userCredentials.email,
       password: md5(userCredentials.password),
       favouritePokemon: null,
+      theme: null,
     });
 
     updateStorage_(users);
@@ -49,9 +51,7 @@ class Users {
       users.set(user.email, user);
     }
 
-    console.log(users);
     updateStorage_(users);
-    console.log(window.localStorage);
   };
 }
 
