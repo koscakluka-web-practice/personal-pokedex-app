@@ -1,0 +1,12 @@
+.dark-theme {
+  --primary: #ddd;
+  --primary-lighten: #f7f7f7;
+  --secondary: #333;
+  --global-background: #222;
+  --primary-background: #333;
+  --secondary-background: #ddd;
+  --border: 0.15rem solid var(--primary);
+  --border-thin: 0.1rem solid var(--primary);
+  --border-thick: 0.25rem solid var(--primary);
+}
+/*# sourceMappingURL=dark.theme.css.map */
