@@ -9,7 +9,11 @@ interface FooterProps {}
 const Footer: React.FunctionComponent<{}> = () => {
   const { toggleTheme } = React.useContext(ThemeContext);
 
-  return <footer onClick={toggleTheme}>No copyright</footer>;
+  return (
+    <footer>
+      <button onClick={toggleTheme}>Toggle Theme</button>
+    </footer>
+  );
 };
 
 export default Footer;
