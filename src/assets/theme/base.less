@@ -1,17 +1,20 @@
+@import url(/src/assets/theme/dark.theme.css);
+@import url(/src/assets/theme/light.theme.css);
+
 :root {
-  --primary: #ddd;
-  --dark: #333;
-  --lighten-dark: lighten(#333, 10%);
+  --dark: #111;
   --light: #fff;
 
   --dark-glow: 0 1px 5px rgba(104, 104, 104, 0.8);
   --shadow: 1px 1px 3px rgba(104, 104, 104, 0.8);
 
-  --border: 0.15rem solid var(--dark);
-  --border-thin: 0.1rem solid var(--dark);
-  --border-thick: 0.25rem solid var(--dark);
+  --border: 0.15rem solid var(--primary);
+  --border-thin: 0.1rem solid var(--primary);
+  --border-thick: 0.25rem solid var(--primary);
 
   --radius: 10px;
+
+  --header-background: #c0c0c0;
 }
 
 html,
@@ -22,7 +25,7 @@ body {
   font-family: "Roboto", Arial, sans-serif;
   line-height: 1.4;
 
-  color: var(--dark);
+  color: var(--primary);
 }
 
 *,
@@ -33,7 +36,7 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--dark);
+  color: var(--primary);
 }
 
 /* General classes */
@@ -54,7 +57,7 @@ a {
 
 button,
 .button {
-  background: var(--dark);
+  background: var(--secondary-background);
 
   display: block;
   padding: 0.8rem;
@@ -63,18 +66,18 @@ button,
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 
-  color: var(--light);
+  color: var(--secondary);
   text-align: center;
   font-size: 1.1rem;
 
   cursor: pointer;
 
   &:hover {
-    background: var(--primary);
+    background: var(--primary-background);
 
     box-shadow: inset var(--shadow);
 
-    color: var(--dark);
+    color: var(--primary);
   }
 }
 
@@ -93,23 +96,26 @@ ul.label-list {
 
   > a,
   > li {
-    text-transform: capitalize;
-
     min-width: 150px;
+    padding: 1rem 0;
+
+    background-color: var(--primary-background);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 1rem 0;
-    border: 1px solid #000;
+    border: var(--border-thin);
     border-radius: 15px;
     box-shadow: var(--shadow);
+
+    text-transform: capitalize;
+    color: var(--primary);
   }
 
   > a:hover {
-    background: var(--dark);
-    color: var(--light);
+    background: var(--secondary-background);
+    color: var(--secondary);
   }
 
   > .load-more {
@@ -119,12 +125,12 @@ ul.label-list {
 
 /* Page Content */
 
-#root {
+#app {
   min-height: 100vh;
   min-width: 100vw;
   margin: 0;
   padding: 0;
-  background: var(--light);
+  background-color: var(--global-background);
 
   display: grid;
   grid-template-columns: 400px 1fr;
@@ -132,6 +138,8 @@ ul.label-list {
   grid-template-areas:
     "header content"
     "footer content";
+
+  color: var(--primary);
 
   @media (max-width: 900px) {
     min-width: 100%;

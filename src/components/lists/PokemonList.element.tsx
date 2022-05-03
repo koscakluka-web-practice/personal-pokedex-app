@@ -13,7 +13,6 @@ const PokemonListElement: React.FunctionComponent<PokemonListElementProps> = ({
   pokemon,
 }) => {
   const { name, url } = pokemon;
-  console.log(name);
   return (
     <NavLink to={name}>
       <li key={name}>{name}</li>

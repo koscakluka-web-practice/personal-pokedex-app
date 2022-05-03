@@ -3,7 +3,7 @@ header {
   display: grid;
   grid-gap: 0;
   grid-template-rows: 75px 1fr;
-  background: #c0c0c0;
+  background: var(--header-background);
 }
 header .logo {
   height: 100%;
@@ -28,7 +28,7 @@ header nav.main-nav ul li {
   margin: 0 auto;
 }
 header nav.main-nav ul a {
-  background: var(--primary);
+  background: var(--light);
   display: block;
   text-decoration: none;
   padding: 0.8rem;

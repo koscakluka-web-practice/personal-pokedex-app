@@ -10,7 +10,6 @@ const StandardLayout: React.FunctionComponent<StandardLayoutProps> = ({
   children,
   center = false,
 }) => {
-  console.log(center);
   return (
     <React.Fragment>
       <Header />

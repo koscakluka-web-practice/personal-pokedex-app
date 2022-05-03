@@ -6,6 +6,6 @@
 }
 .favourite-pokemon-selection-form .warning {
   font-size: 0.8rem;
-  color: var(--lighten-dark);
+  color: var(--primary-lighten);
 }
 /*# sourceMappingURL=FavouritePokemonSelectionForm.css.map */

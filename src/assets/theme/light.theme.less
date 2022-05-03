@@ -1,0 +1,16 @@
+.light-theme {
+  @primary: #333;
+  --primary: @primary;
+  --primary-lighten: lighten(@primary, 10%);
+  @secondary: #ddd;
+  --secondary: @secondary;
+
+  --global-background: #fff;
+
+  --primary-background: @secondary;
+  --secondary-background: @primary;
+
+  --border: 0.15rem solid var(--primary);
+  --border-thin: 0.1rem solid var(--primary);
+  --border-thick: 0.25rem solid var(--primary);
+}
