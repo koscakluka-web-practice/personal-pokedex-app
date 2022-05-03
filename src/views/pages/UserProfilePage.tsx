@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import PokemonApi, { Pokemon } from "@utilities/models/pokemon";
-import Users, { User } from "@utilities/models/users";
+import Logger from "@utilities/tools/Logger";
 
 import { authContext } from "@contexts/AuthContext";
+
+import PokemonApi, { Pokemon } from "@utilities/models/pokemon";
+import Users, { User } from "@utilities/models/users";
 
 import { StandardLayout } from "@views";
 import { PokemonProfile } from "@components";
@@ -28,6 +30,11 @@ const UserProfilePage: React.FunctionComponent<UserProfilePageProps> = () => {
     }
     getPokemon();
   }, []);
+
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(UserProfilePage.name);
+  });
 
   return (
     <StandardLayout center>

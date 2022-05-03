@@ -7,6 +7,7 @@ import PokemonList from "@components/lists/PokemonList";
 import PokemonApi, {
   PokemonList as PokemonListType,
 } from "@utilities/models/pokemon";
+import Logger from "@utilities/tools/Logger";
 
 interface PokemonListPageProps {}
 
@@ -25,17 +26,21 @@ const PokemonListPage: React.FunctionComponent<PokemonListPageProps> = () => {
     setLastPage(lastPage + 1);
   };
 
+  //Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(PokemonListPage.name);
+  });
+
   return (
     <StandardLayout>
       <h1 className="center-content">Pokemon List</h1>
       {pokemonList ? (
         <PokemonList
-          className="pure-u-1"
           pokemonList={pokemonList}
           handleLoadMore={handleLoadMore}
         />
       ) : (
-        <div className="pure-u-1">Loading...</div>
+        <div>Loading...</div>
       )}
       <Outlet />
     </StandardLayout>
