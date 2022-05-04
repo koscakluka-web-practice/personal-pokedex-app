@@ -6,6 +6,8 @@ import AuthProvider from "@contexts/AuthContext";
 import ThemeProvider, { ThemeContext } from "@contexts/ThemeContext";
 
 import "@assets/theme/base.css";
+import { RENDER_MESSAGE } from "@utilities/constants/messages";
+import Logger from "@utilities/tools/Logger";
 
 interface AppProps {}
 
@@ -16,11 +18,11 @@ const App: React.FunctionComponent<AppProps> = () => {
 
   React.useEffect(() => {
     setCurrentTheme(theme);
-    console.log(currentTheme);
   }, [theme]);
 
+  // Render Log
   React.useEffect(() => {
-    console.log("App rendered!");
+    Logger.logComponentRender(App.name);
   });
 
   return (

@@ -1,5 +1,7 @@
 import React from "react";
 
+import Logger from "@utilities/tools/Logger";
+
 import "./LoginForm.css";
 
 interface LoginFormProps {
@@ -15,6 +17,11 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({
   authError,
   submitHandler,
 }) => {
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(LoginForm.name);
+  });
+
   return (
     <form className="login-form" onSubmit={submitHandler}>
       <h1 className="center-content">Login</h1>

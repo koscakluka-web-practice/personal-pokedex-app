@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+import Logger from "@utilities/tools/Logger";
+
 import { authContext } from "@contexts/AuthContext";
 
 import { LoginForm } from "@components";
@@ -35,6 +37,11 @@ const LoginPage: React.FunctionComponent = () => {
       setAuthError(authResult.error);
     }
   };
+
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(LoginPage.name);
+  });
 
   return (
     <StandardLayout center>

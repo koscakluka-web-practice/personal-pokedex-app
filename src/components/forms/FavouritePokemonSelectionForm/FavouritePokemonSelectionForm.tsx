@@ -1,5 +1,7 @@
 import React from "react";
 
+import Logger from "@utilities/tools/Logger";
+
 import "./FavouritePokemonSelectionForm.css";
 
 interface FavouritePokemonSelectionFormProps {
@@ -10,6 +12,11 @@ interface FavouritePokemonSelectionFormProps {
 const FavouritePokemonSelectionForm: React.FunctionComponent<
   FavouritePokemonSelectionFormProps
 > = ({ id, updateFavouritePokemon }) => {
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(FavouritePokemonSelectionForm.name);
+  });
+
   return (
     <div className="favourite-pokemon-selection-form">
       <button onClick={() => updateFavouritePokemon(id.toString())}>

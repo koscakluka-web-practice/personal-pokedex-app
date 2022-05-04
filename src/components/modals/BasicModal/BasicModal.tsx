@@ -1,4 +1,7 @@
+import { BasicModal } from "@components";
 import * as React from "react";
+
+import Logger from "@utilities/tools/Logger";
 
 import "./BasicModal.css";
 
@@ -12,6 +15,11 @@ const PokemonProfilePage: React.FunctionComponent<PokemonProfilePageProps> = ({
   children,
   className,
 }) => {
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(BasicModal.name);
+  });
+
   return (
     <div className={"modalSpace " + className}>
       <div className="modalBackground" onClick={closeModal} />

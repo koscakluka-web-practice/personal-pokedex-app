@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import Logger from "@utilities/tools/Logger";
+
 import { authContext } from "@contexts/AuthContext";
 import Users, { User } from "@utilities/models/users";
 import {
@@ -50,6 +52,11 @@ const PokemonProfilePage: React.FunctionComponent<PokemonProfilePageProps> = (
       }
     }
   };
+
+  //Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(PokemonProfilePage.name);
+  });
 
   return (
     <BasicModal className="pure-u-1" closeModal={closeProfile}>

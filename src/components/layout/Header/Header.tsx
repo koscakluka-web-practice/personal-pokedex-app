@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import Logger from "@utilities/tools/Logger";
+
 import { authContext } from "@contexts/AuthContext";
 
 import {
@@ -16,6 +18,11 @@ interface HeaderProps {}
 
 const Header: React.FunctionComponent<{}> = (props: HeaderProps) => {
   const { auth, logOutUser } = React.useContext(authContext);
+
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(Header.name);
+  });
 
   return (
     <header>

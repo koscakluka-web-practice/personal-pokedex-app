@@ -1,5 +1,7 @@
 import React from "react";
 
+import Logger from "@utilities/tools/Logger";
+
 import PokemonListElement from "./PokemonList.element";
 
 import PokemonApi, {
@@ -15,6 +17,11 @@ const PokemonList: React.FunctionComponent<PokemonListProps> = ({
   pokemonList,
   handleLoadMore,
 }) => {
+  // Render Log
+  React.useEffect(() => {
+    Logger.logComponentRender(PokemonList.name);
+  });
+
   return (
     <ul className="label-list">
       {pokemonList.map((pokemon: { name: string; url: string }) => (

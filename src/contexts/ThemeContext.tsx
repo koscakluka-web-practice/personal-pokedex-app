@@ -15,8 +15,6 @@ interface ThemeContext {
 
 export const ThemeContext = React.createContext<Partial<ThemeContext>>({});
 
-// wrapper to make theme and changeTheme available
-// down the tree
 const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = ({
   children,
 }) => {
@@ -42,9 +40,7 @@ const ThemeProvider: React.FunctionComponent<ThemeProviderProps> = ({
 
   useEffect(() => {
     const user = Users.get(auth.data);
-    console.log(auth);
     if (user?.theme) {
-      console.log(user);
       applyTheme(user.theme);
     } else {
       applyTheme(
