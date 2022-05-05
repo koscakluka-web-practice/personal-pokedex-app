@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 import AppRoutes from "@routes";
 
@@ -6,8 +7,9 @@ import AuthProvider from "@contexts/AuthContext";
 import ThemeProvider, { ThemeContext } from "@contexts/ThemeContext";
 
 import "@assets/theme/base.css";
-import { RENDER_MESSAGE } from "@utilities/constants/messages";
 import Logger from "@utilities/tools/Logger";
+
+const queryClient = new QueryClient();
 
 interface AppProps {}
 
@@ -29,7 +31,9 @@ const App: React.FunctionComponent<AppProps> = () => {
     <AuthProvider>
       <div id="app" className={currentTheme ? currentTheme : ""}>
         <ThemeProvider>
-          <AppRoutes />
+          <QueryClientProvider client={queryClient}>
+            <AppRoutes />
+          </QueryClientProvider>
         </ThemeProvider>
       </div>
     </AuthProvider>

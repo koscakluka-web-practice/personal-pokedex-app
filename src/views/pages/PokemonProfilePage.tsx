@@ -15,27 +15,22 @@ import PokemonApi, { Pokemon, PokemonType } from "@utilities/models/pokemon";
 
 import { POKEMON_LIST_PAGE_PATH } from "@utilities/constants/paths";
 import { USER_PROFILE_PAGE_PATH } from "@utilities/constants/paths";
+import { useQuery } from "react-query";
 
 interface PokemonProfilePageProps {}
 
 const PokemonProfilePage: React.FunctionComponent<PokemonProfilePageProps> = (
   props
 ) => {
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const { auth } = React.useContext(authContext);
   const navigate = useNavigate();
 
   let { pokemonId } = useParams();
 
-  useEffect(() => {
-    async function getPokemon() {
-      if (pokemonId) {
-        const pokemon = await PokemonApi.get(pokemonId);
-        setPokemon(pokemon);
-      }
-    }
-    getPokemon();
-  }, [pokemonId]);
+  const { data, status } = useQuery(
+    ["pokemon", pokemonId],
+    async ({ queryKey }) => await PokemonApi.get(queryKey[1])
+  );
 
   const closeProfile = () => {
     navigate(POKEMON_LIST_PAGE_PATH);
@@ -59,19 +54,21 @@ const PokemonProfilePage: React.FunctionComponent<PokemonProfilePageProps> = (
   });
 
   return (
-    <BasicModal className="pure-u-1" closeModal={closeProfile}>
-      {pokemon ? (
+    <BasicModal closeModal={closeProfile}>
+      {status === "loading" ? (
+        <div className="center-content">Loading...</div>
+      ) : status === "error" ? (
+        <div className="center-content">Error...</div>
+      ) : (
         <React.Fragment>
-          <PokemonProfile pokemon={pokemon} />
+          <PokemonProfile pokemon={data} />
           {auth?.data ? (
             <FavouritePokemonSelectionForm
-              id={pokemon.id}
+              id={data.id}
               updateFavouritePokemon={updateFavouritePokemon}
             />
           ) : null}
         </React.Fragment>
-      ) : (
-        "No Pokemon"
       )}
     </BasicModal>
   );

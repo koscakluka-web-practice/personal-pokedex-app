@@ -22,7 +22,7 @@ const PokemonListElement: React.FunctionComponent<PokemonListElementProps> = ({
   const { name, url } = pokemon;
   return (
     <NavLink to={name}>
-      <li key={name}>{name}</li>
+      <li>{name}</li>
     </NavLink>
   );
 };

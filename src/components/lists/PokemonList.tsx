@@ -10,12 +10,12 @@ import PokemonApi, {
 
 interface PokemonListProps {
   pokemonList: PokemonListType;
-  handleLoadMore: () => void;
+  loadMore: { loading: boolean; hasMore: boolean; loadMore: () => void };
 }
 
 const PokemonList: React.FunctionComponent<PokemonListProps> = ({
   pokemonList,
-  handleLoadMore,
+  loadMore,
 }) => {
   // Render Log
   React.useEffect(() => {
@@ -25,11 +25,17 @@ const PokemonList: React.FunctionComponent<PokemonListProps> = ({
   return (
     <ul className="label-list">
       {pokemonList.map((pokemon: { name: string; url: string }) => (
-        <PokemonListElement pokemon={pokemon} />
+        <PokemonListElement pokemon={pokemon} key={pokemon.name} />
       ))}
-      <a className="load-more" href="#" onClick={handleLoadMore}>
-        <li>Load more...</li>
-      </a>
+      {loadMore.hasMore ? (
+        <a
+          className="load-more"
+          href="#"
+          onClick={!loadMore.loading ? loadMore.loadMore : () => {}}
+        >
+          <li>{loadMore.loading ? "Loading..." : "Load more..."}</li>
+        </a>
+      ) : null}
     </ul>
   );
 };

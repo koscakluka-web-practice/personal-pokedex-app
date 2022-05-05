@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const DEFAULT_PAGE_SIZE = 50;
+export const DEFAULT_PAGE_SIZE = 20;
 
 /**
  * The interface that describes the PokemonType from Pokemon endpoint
@@ -41,7 +41,7 @@ export interface PokemonListElement {
  * name is provided (https://pokeapi.co/docs/v2#pokemon)
  */
 export interface PokemonList {
-  [index: number]: { name: string; url: string };
+  [response: number]: { name: string; url: string };
 }
 
 /**
@@ -57,19 +57,18 @@ class PokemonApi {
 
   /**
    * Lists the Pokemon
-   * @param lastPage Last page to display
-   * @param noPokemonOnPage The number of Pokemon that is in a page
-   * @returns PokemonList list containing the requested number of pages of
-   * Pokemon
+   * @param nextPage String URL to the next page of Pokemon list
+   * TODO...
    */
   static list = async (
-    lastPage: number,
-    noPokemonOnPage = DEFAULT_PAGE_SIZE
-  ): Promise<PokemonList> => {
-    const actualLimit = lastPage * noPokemonOnPage;
+    nextPage: string | null
+  ): Promise<{ response: PokemonList; nextPage: string }> => {
+    const parameters = nextPage
+      ? "?" + nextPage.split("?")[1]
+      : `?limit=${DEFAULT_PAGE_SIZE}`;
+    const response = await PokemonApi.pokeapi_.get(parameters);
 
-    const response = await PokemonApi.pokeapi_.get("?limit=" + actualLimit);
-    return response.data.results;
+    return { response: response.data.results, nextPage: response.data.next };
   };
 
   /**
@@ -89,6 +88,7 @@ class PokemonApi {
       types,
       sprite: sprites.front_default,
     };
+
     return pokemon;
   };
 }

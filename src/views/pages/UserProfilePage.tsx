@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 
 import Logger from "@utilities/tools/Logger";
 
@@ -13,23 +14,14 @@ import { PokemonProfile } from "@components";
 interface UserProfilePageProps {}
 
 const UserProfilePage: React.FunctionComponent<UserProfilePageProps> = () => {
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const { auth } = React.useContext(authContext);
 
-  useEffect(() => {
-    async function getPokemon() {
-      if (auth?.data) {
-        const user: User | null = Users.get(auth.data);
-        if (user) {
-          const favouritePokemonId = user.favouritePokemon;
-          if (favouritePokemonId) {
-            setPokemon(await PokemonApi.get(favouritePokemonId.toString()));
-          }
-        }
-      }
-    }
-    getPokemon();
-  }, []);
+  const pokemonId: string = Users.get(auth.data)?.favouritePokemon;
+
+  const { data, status } = useQuery(
+    ["pokemon", pokemonId],
+    async ({ queryKey }) => await PokemonApi.get(queryKey[1])
+  );
 
   // Render Log
   React.useEffect(() => {
@@ -40,10 +32,12 @@ const UserProfilePage: React.FunctionComponent<UserProfilePageProps> = () => {
     <StandardLayout center>
       <div>
         <h1 className="center-content"> Favourite Pokemon</h1>
-        {pokemon ? (
-          <PokemonProfile pokemon={pokemon} />
+        {status === "loading" ? (
+          <div className="center-content">Loading...</div>
+        ) : status === "error" ? (
+          <div className="center-content">Error...</div>
         ) : (
-          <div className="center-content">No Pokemon</div>
+          <PokemonProfile pokemon={data} />
         )}
       </div>
     </StandardLayout>
