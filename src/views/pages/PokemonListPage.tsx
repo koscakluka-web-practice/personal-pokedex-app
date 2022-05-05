@@ -13,15 +13,14 @@ import Logger from "@utilities/tools/Logger";
 interface PokemonListPageProps {}
 
 const PokemonListPage: React.FunctionComponent<PokemonListPageProps> = () => {
-  const getPokemon = async ({ pageParam = null }) => {
-    const pokemon = await PokemonApi.list(pageParam);
-    return pokemon;
-  };
-
-  const { data, status, error, isFetching, hasNextPage, fetchNextPage } =
-    useInfiniteQuery(["pokemon-list"], getPokemon, {
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-    });
+  const { data, status, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteQuery(
+      ["pokemon-list"],
+      async ({ pageParam = null }) => await PokemonApi.list(pageParam),
+      {
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+      }
+    );
 
   // Construct an object with loadMore information
   const loadMore = {
