@@ -88,6 +88,7 @@ class PokemonApi {
       types,
       sprite: sprites.front_default,
     };
+
     return pokemon;
   };
 }

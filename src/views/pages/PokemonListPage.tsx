@@ -46,9 +46,9 @@ const PokemonListPage: React.FunctionComponent<PokemonListPageProps> = () => {
     <StandardLayout>
       <h1 className="center-content">Pokemon List</h1>
       {status == "loading" ? (
-        <div>Loading...</div>
+        <div className="center-content">Loading...</div>
       ) : status == "error" ? (
-        <div>Error...</div>
+        <div className="center-content">Error...</div>
       ) : (
         <PokemonList pokemonList={pokemonList} loadMore={loadMore} />
       )}
